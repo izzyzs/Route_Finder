@@ -1,4 +1,4 @@
-# MTA Project: Route Suggestion App
+# Route Suggestion App
 
 # 1) Basic MVP Ideas: _1/2/25_
 
