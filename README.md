@@ -48,7 +48,7 @@ RouteSort --|> User : (1) data -> sorted_routes
 User --|> Storage : (1 / 2a) data -> fav_route
 User <|-- Storage : (2b) data -> fav_route
 Storage --|> RTRouteFinder : (2b) data -> fav_route
-RTRouteFinder --|> User : REALTIME -> route_details
+RTRouteFinder <--|> User : REALTIME -> route_details
 ```
 
 # 5) Data…
