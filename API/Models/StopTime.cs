@@ -5,37 +5,16 @@ namespace API.Models;
 [PrimaryKey(nameof(TripID), nameof(StopSequence))]
 public class StopTime
 {
-    public required string TripID { get; set; }
-    public required string StopID { get; set; }
+   public required string TripID { get; set; }
+   public required string StopID { get; set; }
+   public required string ArrivalTime { get; set; }
+   public required string DepartureTime { get; set; }
+   public string? StopSequence { get; set; }
 
-    private TimeSpan _arrivalTime;
-    public string ArrivalTime
-    {
-         get
-         {
-            return _arrivalTime.ToString();
-         }
-         set
-         {
-            var parts = value.Split(":");
-
-            // _arrivalTime = TimeSpan.ParseExact(value, "G", CultureInfo.CurrentCulture);
-            _arrivalTime = new TimeSpan(int.Parse(parts[0]), int.Parse(parts[1]), int.Parse(parts[2]));
-         }
-    }
-    private TimeSpan _departureTime;
-    public string DepartureTime  {
-         get
-         {
-            return _departureTime.ToString();
-         }
-         set
-         {
-            var parts = value.Split(":");
-
-            // _departureTime = TimeSpan.ParseExact(value, "G", CultureInfo.CurrentCulture);
-            _departureTime = new TimeSpan(int.Parse(parts[0]), int.Parse(parts[1]), int.Parse(parts[2]));
-         }}
-    public string? StopSequence  { get; set; }
-
+   public static TimeOnly ToTime(string timeString)
+   {
+      int[] timeArray = timeString.Split(":").Select(t => int.Parse(t)).ToArray();
+      timeArray[0] %= 24;
+      return new TimeOnly(timeArray[0], timeArray[1], timeArray[3]);
+   }
 }

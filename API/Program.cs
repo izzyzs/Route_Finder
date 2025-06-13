@@ -9,42 +9,71 @@ using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
+using API.Services;
 
+const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.sssz";
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<GTFSDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<ILocationService, LocationService>();
+
+
+    // List<(Stop, GeoCoordinate)> closeEnough;
+    // List<char> letters;
+    // List<string> stopsClosestToMe;
+    // List<string> stopsClosestToDestination;
+    
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<GTFSDbContext>();
-    var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-    {
-        PrepareHeaderForMatch = args => args.Header.Underscore(),
-    };
+    var locationService = scope.ServiceProvider.GetRequiredService<ILocationService>();
 
-    GeoCoordinate destination = new GeoCoordinate(40.823206385675476, -73.93912865038058);
-    
 
-    List<(Stop, GeoCoordinate)> closeEnough;
-    List<string> stopsClosestToMe;
-    List<string> stopsClosestToDestination;
-    List<char> letters;
+// 40.81292565939048, -73.92588980616152
+    double startLat = 40.83181721457334;
+    double startLon = -73.91831147657086;
     
-    double myLat = 40.831788646900975;
-    double myLon = -73.91836083149104;
-    double destinationLat = 40.823826746298984;
-    double destinationLon = -73.93944955029748;
-    // List<(Stop, GeoCoordinate)> locations =
+    double endLat = 40.82221343186862;
+    double endLon = -73.9390352088722;
+
+    List<string> closestStarts, closestEnds;
+
+    Router route = new Router(locationService, context, startLat, startLon, endLat, endLon, DateTime.Now.ToString(DateTimeFormat));
+    (closestStarts, closestEnds) = await route.FindClosestStops();
+    route.ConnectStops(closestStarts, closestEnds);
+
+    // // List<(Stop, GeoCoordinate)> locations =
     //     (from r in context.Stops
     //      select (r, new GeoCoordinate(r.StopLat, r.StopLon))).ToList(); 
 
-    List<Location> locations = context.Stops.Select(s => new Location(s, new GeoCoordinate(s.StopLat, s.StopLon))).ToList();
+    // LocationService l = new LocationService(context, );
     
-    stopsClosestToMe = DestinationRoute.FindClosestStops(locations, myLat, myLon);
-    stopsClosestToDestination = DestinationRoute.FindClosestStops(locations, destinationLat, destinationLon);
+    // List<CalendarGTFS> calendars = (context.CalendarGTFSs.Select(c => c)).ToList();
+    // foreach (var c in calendars)
+    // {
+    //     Console.WriteLine("c.ServiceID\t" + c.ServiceID +
+    //                       "\nc.Monday\t" + c.Monday +
+    //                       "\nc.Tuesday\t" + c.Tuesday +
+    //                       "\nc.Wednesday\t" + c.Wednesday +
+    //                       "\nc.Thursday\t" + c.Thursday +
+    //                       "\nc.Friday\t" + c.Friday +
+    //                       "\nc.Saturday\t" + c.Saturday +
+    //                       "\nc.Sunday\t" + c.Sunday +
+    //                       "\nc.StartDate\t" + c.StartDate +
+    //                       "\nc.EndDate\t" + c.EndDate + 
+    //                       "\nc.IsWeekday\t" + c.IsWeekday + "\n\n"
+    //                     );
+    // // Console.WriteLine(c.Day(10) == 1);
+    // }
+
+    
+    // stopsClosestToMe = DestinationRoute.FindClosestStops(locations, myLat, myLon);
+    // stopsClosestToDestination = DestinationRoute.FindClosestStops(locations, destinationLat, destinationLon);
 
     // closeEnough =
     //     (from l in locationsList
@@ -57,14 +86,14 @@ using (var scope = app.Services.CreateScope())
     
     // Console.WriteLine(closeEnough.Count);
 
-    foreach (var l in stopsClosestToMe)
-    {
-        Console.WriteLine("Start: " + l);
-    }
-    foreach (var l in stopsClosestToDestination)
-    {
-        Console.WriteLine("End:" + l);
-    }
+    // foreach (var l in stopsClosestToMe)
+    // {
+    //     Console.WriteLine("Start: " + l);
+    // }
+    // foreach (var l in stopsClosestToDestination)
+    // {
+    //     Console.WriteLine("End:" + l);
+    // }
         // Console.WriteLine("stops.txt: " + l.Item1.StopID + "\t" + l.Item1.StopName + ":\tDistance:\t" + myLocation.GetDistanceTo(l.Item2));
         // Console.WriteLine(l);
     

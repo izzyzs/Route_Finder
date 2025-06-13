@@ -202,3 +202,5 @@
 /Users/ismaelz/Dropbox/Ben_n_Family/Ismael_Z/Documents/Career/Programming/GetHired/Route_Finder/API/obj/Debug/net8.0/API.pdb
 /Users/ismaelz/Dropbox/Ben_n_Family/Ismael_Z/Documents/Career/Programming/GetHired/Route_Finder/API/obj/Debug/net8.0/API.genruntimeconfig.cache
 /Users/ismaelz/Dropbox/Ben_n_Family/Ismael_Z/Documents/Career/Programming/GetHired/Route_Finder/API/obj/Debug/net8.0/ref/API.dll
+/Users/ismaelz/Dropbox/Ben_n_Family/Ismael_Z/Documents/Career/Programming/GetHired/Route_Finder/API/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/ismaelz/Dropbox/Ben_n_Family/Ismael_Z/Documents/Career/Programming/GetHired/Route_Finder/API/bin/Debug/net8.0/Newtonsoft.Json.Schema.dll
