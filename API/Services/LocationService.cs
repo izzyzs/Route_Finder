@@ -29,6 +29,7 @@ public class LocationService : ILocationService
     {
         if (!_cache.TryGetValue(CacheKey, out List<Location>? locations))
         {
+            // List<LocationService>
             locations = await Task.Run(() => _context.Stops
             .Select(s => new Location(s, new GeoCoordinate(s.StopLat, s.StopLon)))
             .ToList());

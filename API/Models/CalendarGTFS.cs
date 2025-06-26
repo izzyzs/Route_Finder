@@ -30,7 +30,7 @@ public class CalendarGTFS
             return this.Monday == 1 || this.Tuesday == 1 || this.Wednesday == 1 || this.Thursday == 1 || this.Friday == 1;
         }
     }
-    public static CalendarGTFS? getServiceID(DayOfWeek d, GTFSDbContext context)
+    public static CalendarGTFS GetServiceID(DayOfWeek d, GTFSDbContext context)
     {
         if (d == DayOfWeek.Sunday)
         {

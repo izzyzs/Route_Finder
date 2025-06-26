@@ -13,8 +13,8 @@ public class StopTime
 
    public static TimeOnly ToTime(string timeString)
    {
-      int[] timeArray = timeString.Split(":").Select(t => int.Parse(t)).ToArray();
+      int[] timeArray = timeString.Split(":").Select(t => (int)double.Parse(t)).ToArray();
       timeArray[0] %= 24;
-      return new TimeOnly(timeArray[0], timeArray[1], timeArray[3]);
+      return new TimeOnly(timeArray[0], timeArray[1], timeArray[2]);
    }
 }

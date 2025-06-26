@@ -53,6 +53,30 @@ RTRouteFinder <|--|> User : REALTIME -> route_details
 
 # 5) Data…
 
+# 6) Talk About The Basics... [6/12/2025 10:55 PM EST]
+
+-   **What is a Route?**
+    -> A route is simply a journey with multiple _legs_ and _transfers_.
+    A _leg_ is a single ride that takes place on one train which starts
+    with a boarding and ends with a descending. When a person descends
+    off a train and boards a second at the same or a close station that's called a _transfer._
+-   **What is the best journey?**
+    -> The shortest one in terms of time. The Weight of a leg is determined by the amount of time spent on said leg.
+-   **Solution for finding path**
+    -> 2 Options:
+    1. Use a path finding API (with google probably)
+    2. Write out a solution myself, modifying a pathfinding algorithm.
+
+---
+
+A graph needs to be made
+
 ## Sources
 
 MTA’s GTFS (schedule and real-time)
+
+## Project Details
+
+---
+
+-   ASP.NET Core 8 [Backend]
